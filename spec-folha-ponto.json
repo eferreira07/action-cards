@@ -1,0 +1,69 @@
+{
+  "brand": "prime-citrus",
+  "headerIcon": "ti-flag",
+  "title": "Folha de Ponto",
+  "subtitle": "sexta-feira &middot; grava na coluna <span style=\"font-family:var(--font-mono)\">sex</span>",
+  "meta": { "type": "date", "value": "2026-11-06" },
+  "lists": {
+    "roster": [
+      { "value": "__novo__", "label": "Novo cadastro" },
+      "BRUNINHO M. DE OLIVEIRA", "DILMA ARAUJO DE LIMA", "GABRIEL R. FERNANDES",
+      "JENNIFER A. DA ROCHA", "JULIANA P. BERNARDO", "KAMILI V. LIMA", "MAICON MUCCI",
+      "MAIRA P. GONÇAIVES", "MARIA CRISTINA S. ANDRADE", "MARIA EDUARDA",
+      "MELRE C. S. MORA", "MIKAELE", "MIRIAN G. APPARICIO", "NAYELE", "NIRCI GOMES",
+      "PRISCILA FIGUEIREDO", "ROBSON APARECIDO", "TATIELI", "THAYARA", "VANESSA",
+      "YASMIN A. B. SOARES"
+    ]
+  },
+  "columns": [
+    { "key": "nome", "label": "nome", "width": 144, "required": true, "placeholder": "não lido", "invalidLabel": "nome em branco" },
+    { "key": "entrada", "label": "entrada", "width": 58, "type": "time", "default": "07:00", "invalidLabel": "horário inválido" },
+    { "key": "saida", "label": "saída", "width": 58, "type": "time", "default": "16:30", "invalidLabel": "horário inválido" },
+    { "key": "cx", "label": "cx", "width": 46 },
+    { "key": "dia", "label": "dia", "width": 54, "type": "select", "options": ["P", "A", "M", "F"],
+      "derive": { "from": "saida", "op": "beforeAfter", "ref": "16:30" }, "before": "M", "after": "P" },
+    { "key": "hex", "label": "h.ex", "width": 50, "type": "number",
+      "derive": { "from": "saida", "op": "hoursAfter", "ref": "16:30" } },
+    { "key": "cadastro", "label": "cadastro", "type": "select", "options": "$roster", "required": true, "invalidLabel": "cadastro não escolhido" }
+  ],
+  "rows": [
+    { "nome": "JAQUELINI", "entrada": "07:00", "saida": "16:30", "cx": "105", "cadastro": "__novo__" },
+    { "nome": "ERICA", "entrada": "07:00", "saida": "16:30", "cx": "100", "cadastro": "__novo__" },
+    { "nome": "ARIANE", "entrada": "07:00", "saida": "16:30", "cx": "120", "cadastro": "__novo__" },
+    { "nome": "EDUARDA", "entrada": "07:00", "saida": "16:30", "cx": "110", "cadastro": "" },
+    { "nome": "JENNIFER", "entrada": "07:00", "saida": "16:30", "cx": "120", "cadastro": "JENNIFER A. DA ROCHA" },
+    { "nome": "MARCIA", "entrada": "07:00", "saida": "18:30", "cx": "120", "cadastro": "__novo__" },
+    { "nome": "OLGIDE", "entrada": "07:00", "saida": "16:30", "cx": "104", "cadastro": "__novo__" },
+    { "nome": "GRAZIELA", "entrada": "07:00", "saida": "18:00", "cx": "120", "cadastro": "__novo__" },
+    { "nome": "VITORIA", "entrada": "07:00", "saida": "11:00", "cx": "69", "cadastro": "__novo__" },
+    { "nome": "JULIA", "entrada": "07:00", "saida": "11:00", "cx": "61", "cadastro": "" },
+    { "nome": "LUCELIA", "entrada": "07:00", "saida": "16:30", "cx": "180", "cadastro": "__novo__" },
+    { "nome": "FRAN", "entrada": "07:00", "saida": "18:30", "cx": "", "cadastro": "__novo__" },
+    { "nome": "ZULENE", "entrada": "07:00", "saida": "16:30", "cx": "", "cadastro": "__novo__" },
+    { "nome": "RITA", "entrada": "07:00", "saida": "16:30", "cx": "", "cadastro": "__novo__" },
+    { "nome": "FABIO", "entrada": "07:00", "saida": "16:30", "cx": "", "cadastro": "__novo__" },
+    { "nome": "EDI", "entrada": "07:00", "saida": "16:30", "cx": "", "cadastro": "__novo__" },
+    { "nome": "BRUNO", "entrada": "07:00", "saida": "18:30", "cx": "", "cadastro": "" },
+    { "nome": "TAVAN (CAROÇO)", "entrada": "07:00", "saida": "18:30", "cx": "", "cadastro": "__novo__" },
+    { "nome": "DANILO", "entrada": "07:00", "saida": "18:30", "cx": "", "cadastro": "__novo__" },
+    { "nome": "", "entrada": "07:00", "saida": "18:30", "cx": "", "cadastro": "" },
+    { "nome": "ADRIAN", "entrada": "07:00", "saida": "18:30", "cx": "", "cadastro": "__novo__" },
+    { "nome": "ALESSANDRO", "entrada": "07:00", "saida": "18:30", "cx": "", "cadastro": "__novo__" },
+    { "nome": "ROBSON", "entrada": "07:00", "saida": "18:30", "cx": "", "cadastro": "ROBSON APARECIDO" }
+  ],
+  "totals": [
+    { "type": "sum", "key": "hex", "label": "horas extras" },
+    { "type": "count", "label": "linhas" },
+    { "type": "countBy", "key": "cadastro", "match": "@notEmpty", "label": "definido" },
+    { "type": "countBy", "key": "cadastro", "match": "__novo__", "label": "novo" },
+    { "type": "countBy", "key": "cadastro", "match": "@empty", "label": "pendente", "warnIfAny": true }
+  ],
+  "addRows": true,
+  "addRowsLabel": "Adicionar linha",
+  "blockLabel": "Falta corrigir",
+  "actions": [
+    { "id": "approve", "label": "Aprovar e gravar", "style": "primary", "requiresValid": true,
+      "prompt": "Aprovado. Grave a folha de {{META}} na coluna sex:\n{{ROWS}}" },
+    { "id": "reject", "label": "Rejeitar", "prompt": "Rejeitar. Não grave nada." }
+  ]
+}
